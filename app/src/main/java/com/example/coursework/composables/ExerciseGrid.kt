@@ -52,9 +52,3 @@ fun ExerciseGrid() {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ExercisesPreview() {
-    ExerciseGrid()
-}

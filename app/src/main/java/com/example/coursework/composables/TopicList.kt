@@ -21,11 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.coursework.navigation.Exercises
 
 @Composable
-fun TopicButton() {
+fun TopicButton(navController: NavController) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { navController.navigate(Exercises.route) },
         shape = RoundedCornerShape(8.dp),
         contentPadding = PaddingValues(17.dp, 10.dp, 0.dp, 10.dp),
         modifier = Modifier
@@ -69,19 +72,13 @@ fun TopicButton() {
 }
 
 @Composable
-fun TopicList() {
+fun TopicList(navController: NavController) {
     LazyColumn(
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(3) {
-            TopicButton()
+            TopicButton(navController)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TopicsPreview() {
-    TopicList()
 }

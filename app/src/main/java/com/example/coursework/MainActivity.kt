@@ -10,7 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.coursework.composables.TopicList
+import com.example.coursework.navigation.Exercises
+import com.example.coursework.navigation.Topics
+import com.example.coursework.screens.ExercisesScreen
+import com.example.coursework.screens.TopicsScreen
 import com.example.coursework.ui.theme.CourseworkTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +30,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TopicList()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = Topics.route) {
+                        composable(Topics.route) {
+                            TopicsScreen(navController)
+                        }
+                        composable(Exercises.route) {
+                            ExercisesScreen()
+                        }
+                    }
                 }
             }
         }
