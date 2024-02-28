@@ -6,14 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.coursework.composables.TopicList
 import com.example.coursework.navigation.Exercises
 import com.example.coursework.navigation.Topics
 import com.example.coursework.screens.ExercisesScreen
@@ -36,7 +34,7 @@ class MainActivity : ComponentActivity() {
                             TopicsScreen(navController)
                         }
                         composable(Exercises.route) {
-                            ExercisesScreen()
+                            ExercisesScreen(navController)
                         }
                     }
                 }
