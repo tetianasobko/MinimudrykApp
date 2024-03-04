@@ -1,11 +1,10 @@
 package com.example.coursework.models
 
-interface Exercise {
-    val id: Int
-    val name: String
-    val type: ExerciseType
-    val topicId: Int
-    val description: String
-    val hint: String
-    val isCompleted: Boolean
-}
+open class Exercise(
+    open val id: Int,
+    open val name: String,
+    open val type: ExerciseType,
+    open val description: String,
+    open val hint: String,
+    open var isCompleted: Boolean
+)
