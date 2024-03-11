@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -23,10 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.coursework.models.MathTopic
 import com.example.coursework.navigation.Exercises
 
 @Composable
-fun TopicButton(navController: NavController) {
+fun TopicButton(navController: NavController, topic: MathTopic) {
     Button(
         onClick = { navController.navigate(Exercises.route) },
         shape = RoundedCornerShape(8.dp),
@@ -42,7 +44,7 @@ fun TopicButton(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier.weight(9f)
             ) {
-                Text(text = "Topic name")
+                Text(text = topic.name)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -72,13 +74,13 @@ fun TopicButton(navController: NavController) {
 }
 
 @Composable
-fun TopicList(navController: NavController) {
+fun TopicList(navController: NavController, topics: List<MathTopic>) {
     LazyColumn(
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(3) {
-            TopicButton(navController)
+        items(topics) { topic ->
+            TopicButton(navController, topic)
         }
     }
 }
