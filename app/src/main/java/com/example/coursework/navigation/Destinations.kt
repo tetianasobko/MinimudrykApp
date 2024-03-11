@@ -10,4 +10,5 @@ object Topics : Destinations {
 
 object Exercises : Destinations {
     override val route = "ExercisesScreen"
+    const val argTopicId = "topicId"
 }

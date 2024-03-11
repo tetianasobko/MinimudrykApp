@@ -6,12 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.coursework.navigation.Exercises
 import com.example.coursework.navigation.Topics
 import com.example.coursework.screens.ExercisesScreen
@@ -33,8 +33,15 @@ class MainActivity : ComponentActivity() {
                         composable(Topics.route) {
                             TopicsScreen(navController)
                         }
-                        composable(Exercises.route) {
-                            ExercisesScreen(navController)
+                        composable(
+                            Exercises.route + "/{${Exercises.argTopicId}}",
+                            arguments = listOf(navArgument(Exercises.argTopicId) {
+                                type = NavType.IntType
+                            })
+                        ) {
+                            val topicId =
+                                requireNotNull(it.arguments?.getInt(Exercises.argTopicId)) { "Topic id is null" }
+                            ExercisesScreen(navController, topicId)
                         }
                     }
                 }

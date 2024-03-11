@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import java.io.InputStream
 
-class JsonSerializer() {
+class JsonSerializer {
     private val gson = Gson()
 
 //    fun write(out: JsonWriter, exercise: Exercise) {
@@ -30,9 +30,7 @@ class JsonSerializer() {
                     val exercises = mutableListOf<Exercise>()
 
                     jsonExercises.forEach { exercise ->
-                        {
-                            exercises.add(deserializeExercise(gson.toJson(exercise)))
-                        }
+                        exercises.add(deserializeExercise(gson.toJson(exercise)))
                     }
                     val mathTopic = MathTopic(id, name, exercises)
                     mathTopics.add(mathTopic)

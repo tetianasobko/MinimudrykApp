@@ -1,7 +1,6 @@
 package com.example.coursework.composables
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -20,17 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.coursework.models.MathTopic
 import com.example.coursework.navigation.Exercises
 
 @Composable
 fun TopicButton(navController: NavController, topic: MathTopic) {
     Button(
-        onClick = { navController.navigate(Exercises.route) },
+        onClick = { navController.navigate(Exercises.route + "/${topic.id}") },
         shape = RoundedCornerShape(8.dp),
         contentPadding = PaddingValues(17.dp, 10.dp, 0.dp, 10.dp),
         modifier = Modifier

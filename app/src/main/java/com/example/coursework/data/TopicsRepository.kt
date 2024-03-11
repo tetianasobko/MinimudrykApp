@@ -9,7 +9,7 @@ class TopicsRepository(private val context: Context) {
         readTopicsFromJson()
     }
 
-    fun getTopic(id: Int) = topics.first() { it.id == id }
+    fun findTopic(id: Int) = topics.first { it.id == id }
     fun getTopicsAll() = topics
     private fun readTopicsFromJson() {
         val file = context.assets.open("topics.json")
