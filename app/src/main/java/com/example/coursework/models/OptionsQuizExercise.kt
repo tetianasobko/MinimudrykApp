@@ -8,5 +8,5 @@ data class OptionsQuizExercise(
     override var isCompleted: Boolean,
     val options: List<String>,
     val correctOption: Int
-) : Exercise(id, name, ExerciseType.OptionsQuiz, description, hint, isCompleted) {
+) : Exercise(id, name, ExerciseType.OptionsQuizType, description, hint, isCompleted) {
 }

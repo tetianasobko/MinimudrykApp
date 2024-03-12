@@ -7,5 +7,5 @@ data class InputQuizExercise(
     override val hint: String,
     override var isCompleted: Boolean,
     val correctAnswer: String
-) : Exercise(id, name, ExerciseType.InputQuiz, description, hint, isCompleted) {
+) : Exercise(id, name, ExerciseType.InputQuizType, description, hint, isCompleted) {
 }

@@ -12,3 +12,15 @@ object Exercises : Destinations {
     override val route = "ExercisesScreen"
     const val argTopicId = "topicId"
 }
+
+object OptionsQuiz: Destinations {
+    override val route: String = "OptionsQuizScreen"
+    const val argTopicId = "topicId"
+    const val argExerciseId = "exerciseId"
+}
+
+object InputQuiz: Destinations {
+    override val route: String = "InputQuizScreen"
+    const val argTopicId = "topicId"
+    const val argExerciseId = "exerciseId"
+}

@@ -13,8 +13,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.coursework.navigation.Exercises
+import com.example.coursework.navigation.InputQuiz
+import com.example.coursework.navigation.OptionsQuiz
 import com.example.coursework.navigation.Topics
 import com.example.coursework.screens.ExercisesScreen
+import com.example.coursework.screens.InputQuizScreen
+import com.example.coursework.screens.OptionsQuizScreen
 import com.example.coursework.screens.TopicsScreen
 import com.example.coursework.ui.theme.CourseworkTheme
 
@@ -42,6 +46,33 @@ class MainActivity : ComponentActivity() {
                             val topicId =
                                 requireNotNull(it.arguments?.getInt(Exercises.argTopicId)) { "Topic id is null" }
                             ExercisesScreen(navController, topicId)
+                        }
+                        composable(
+                            OptionsQuiz.route + "/{${OptionsQuiz.argTopicId}}" + "/{${OptionsQuiz.argExerciseId}}",
+                            arguments = listOf(
+                                navArgument(OptionsQuiz.argTopicId) {type = NavType.IntType },
+                                navArgument(OptionsQuiz.argExerciseId) {type = NavType.IntType }
+                            )
+                        ) {
+                            val topicId =
+                                requireNotNull(it.arguments?.getInt(OptionsQuiz.argTopicId)) { "Topic id is null" }
+                            val exerciseId =
+                                requireNotNull(it.arguments?.getInt(OptionsQuiz.argExerciseId)) { "Exercise id is null" }
+                            OptionsQuizScreen(topicId, exerciseId)
+                        }
+                        composable(
+                            InputQuiz.route + "/{${OptionsQuiz.argTopicId}}" + "/{${OptionsQuiz.argExerciseId}}",
+                            arguments = listOf(navArgument(InputQuiz.argTopicId) {
+                                type = NavType.IntType
+                            }, navArgument(InputQuiz.argExerciseId) {
+                                type = NavType.IntType
+                            })
+                        ) {
+                            val topicId =
+                                requireNotNull(it.arguments?.getInt(InputQuiz.argTopicId)) { "Topic id is null" }
+                            val exerciseId =
+                                requireNotNull(it.arguments?.getInt(InputQuiz.argExerciseId)) { "Exercise id is null" }
+                            InputQuizScreen(topicId, exerciseId)
                         }
                     }
                 }

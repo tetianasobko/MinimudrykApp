@@ -59,12 +59,12 @@ class JsonSerializer {
         val type = ExerciseType.entries.find { it.value == typeValue }
 
         return when (type) {
-            ExerciseType.InputQuiz -> {
+            ExerciseType.InputQuizType -> {
                 val correctAnswer = exercise["correctAnswer"] as String
                 InputQuizExercise(id, name, description, hint, isCompleted, correctAnswer)
             }
 
-            ExerciseType.OptionsQuiz -> {
+            ExerciseType.OptionsQuizType -> {
                 val options = exercise["options"] as List<String>
                 val correctOption = (exercise["correctOption"] as Double).toInt()
                 OptionsQuizExercise(
@@ -78,7 +78,7 @@ class JsonSerializer {
                 )
             }
 
-            ExerciseType.Game -> {
+            ExerciseType.GameType -> {
                 // TODO: Implement GameExercise deserialization
                 throw UnsupportedOperationException("GameExercise deserialization is not implemented")
             }
