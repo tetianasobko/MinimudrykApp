@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
                                 requireNotNull(it.arguments?.getInt(OptionsQuiz.argTopicId)) { "Topic id is null" }
                             val exerciseId =
                                 requireNotNull(it.arguments?.getInt(OptionsQuiz.argExerciseId)) { "Exercise id is null" }
-                            OptionsQuizScreen(topicId, exerciseId)
+                            OptionsQuizScreen(navController, topicId, exerciseId)
                         }
                         composable(
                             InputQuiz.route + "/{${OptionsQuiz.argTopicId}}" + "/{${OptionsQuiz.argExerciseId}}",
@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
                                 requireNotNull(it.arguments?.getInt(InputQuiz.argTopicId)) { "Topic id is null" }
                             val exerciseId =
                                 requireNotNull(it.arguments?.getInt(InputQuiz.argExerciseId)) { "Exercise id is null" }
-                            InputQuizScreen(topicId, exerciseId)
+                            InputQuizScreen(navController, topicId, exerciseId)
                         }
                     }
                 }

@@ -21,11 +21,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.coursework.models.OptionsQuizExercise
 import kotlin.random.Random
 
 @Composable
-fun OptionsQuizSection(exercise: OptionsQuizExercise) {
+fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExercise) {
+    val shouldShowRightAnswerDialog = remember { mutableStateOf(false) }
+    val shouldShowWrongAnswerDialog = remember { mutableStateOf(false) }
+
+    if (shouldShowRightAnswerDialog.value) {
+        RightAnswerDialog(onDismissRequest = { shouldShowRightAnswerDialog.value = false }, navController = navController)
+    }
+
+    if (shouldShowWrongAnswerDialog.value) {
+        WrongAnswerDialog(onDismissRequest = { shouldShowWrongAnswerDialog.value = false }, navController = navController)
+    }
+
     var selectedOption by remember {
         mutableStateOf("")
     }
@@ -36,7 +48,7 @@ fun OptionsQuizSection(exercise: OptionsQuizExercise) {
         modifier = Modifier.fillMaxSize()
     ) {
         Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.weight(1f)) {
-            QuizCard(exercise)
+            QuizCard(navController, exercise)
         }
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
@@ -63,7 +75,16 @@ fun OptionsQuizSection(exercise: OptionsQuizExercise) {
                 }
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    if (selectedOption == exercise.options[exercise.correctOption]) {
+                        exercise.complete()
+                        shouldShowRightAnswerDialog.value = true
+
+                    } else {
+                        shouldShowWrongAnswerDialog.value = true
+                    }
+                },
+                enabled = selectedOption.isNotBlank(),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.align(Alignment.End)
             ) {

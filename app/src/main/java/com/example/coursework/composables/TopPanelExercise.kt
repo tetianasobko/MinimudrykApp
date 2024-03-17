@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -18,9 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun TopPanel(exerciseName: String) {
+fun TopPanel(navController: NavController, exerciseName: String) {
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
@@ -30,7 +30,7 @@ fun TopPanel(exerciseName: String) {
             .background(Color.Gray)
     ) {
         IconButton(
-            onClick = { },
+            onClick = { navController.navigateUp() },
             modifier = Modifier.align(Alignment.TopStart)
         ) {
             Icon(
@@ -38,8 +38,10 @@ fun TopPanel(exerciseName: String) {
                 contentDescription = "Back Button", tint = Color.White
             )
         }
-        Text(text = exerciseName, color = Color.White, modifier = Modifier
-            .padding(vertical = 9.dp))
+        Text(
+            text = exerciseName, color = Color.White, modifier = Modifier
+                .padding(vertical = 9.dp)
+        )
     }
 }
 

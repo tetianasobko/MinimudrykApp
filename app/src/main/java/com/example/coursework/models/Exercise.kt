@@ -7,4 +7,8 @@ open class Exercise(
     open val description: String,
     open val hint: String,
     open var isCompleted: Boolean
-)
+) {
+    fun complete() {
+        isCompleted = true
+    }
+}

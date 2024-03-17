@@ -3,7 +3,7 @@ package com.example.coursework.models
 data class MathTopic(
     val id: Int,
     val name: String,
-    val exercises: MutableList<Exercise> = mutableListOf()
+    var exercises: List<Exercise> = mutableListOf()
 ) {
     fun findExercise(id: Int) = exercises.first { it.id == id }
 
