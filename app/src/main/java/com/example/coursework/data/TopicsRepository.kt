@@ -19,11 +19,4 @@ class TopicsRepository(private val context: Context) {
         topics = jsonSerializer.deserializeMathTopics(file)
     }
 
-    fun updateExercise(mathTopicId: Int, exercise: Exercise) {
-        val file = context.assets.open(fileName)
-        val jsonSerializer = JsonSerializer()
-        jsonSerializer.updateExerciseInMathTopic(mathTopicId, exercise, file)
-
-    }
-
 }

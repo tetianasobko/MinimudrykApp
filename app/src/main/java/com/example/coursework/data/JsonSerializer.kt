@@ -12,46 +12,6 @@ import java.io.InputStream
 class JsonSerializer {
     private val gson = Gson()
 
-    fun updateExerciseInMathTopic(mathTopicId: Int, updatedExercise: Exercise, inputStream: InputStream) {
-        val existingMathTopics = deserializeMathTopics(inputStream)
-
-        val mathTopicToUpdate = existingMathTopics.find { it.id == mathTopicId }
-
-        if (mathTopicToUpdate != null) {
-            val updatedExercises = mathTopicToUpdate.exercises.map { existingExercise ->
-                if (existingExercise.id == updatedExercise.id) {
-                    updatedExercise
-                } else {
-                    existingExercise
-                }
-            }
-
-            mathTopicToUpdate.exercises = updatedExercises
-
-            // Write the updated data back to the file
-            val updatedJsonString = gson.toJson(existingMathTopics)
-            val updatedBytes = updatedJsonString.toByteArray()
-            inputStream.close()
-            val outputStream = ByteArrayOutputStream()
-            outputStream.write(updatedBytes)
-
-        } else {
-            println("Math topic with ID $mathTopicId not found.")
-        }
-    }
-
-    private fun writeToJsonFile(mathTopics: List<MathTopic>, file: File) {
-        val jsonString = gson.toJson(mathTopics)
-        try {
-            FileWriter(file).use { writer ->
-                writer.write(jsonString)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-
-
     fun deserializeMathTopics(inputStream: InputStream): List<MathTopic> {
         val mathTopics = mutableListOf<MathTopic>()
 
