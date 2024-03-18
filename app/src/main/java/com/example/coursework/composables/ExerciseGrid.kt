@@ -27,15 +27,15 @@ import com.example.coursework.navigation.InputQuiz
 import com.example.coursework.navigation.OptionsQuiz
 
 @Composable
-fun ExerciseButton(navController: NavController, exercise: Exercise, topic: MathTopic) {
+fun ExerciseButton(navController: NavController, exercise: Exercise) {
     Button(
         onClick = {
             try {
                 navController.navigate(
                 when(exercise.type) {
-                    ExerciseType.OptionsQuizType -> OptionsQuiz.route + "/${topic.id}" + "/${exercise.id}"
-                    ExerciseType.InputQuizType -> InputQuiz.route + "/${topic.id}" + "/${exercise.id}"
-                    ExerciseType.GameType -> Exercises.route + "/${topic.id}"
+                    ExerciseType.OptionsQuizType -> OptionsQuiz.route + "/${exercise.mathTopicId}" + "/${exercise.id}"
+                    ExerciseType.InputQuizType -> InputQuiz.route + "/${exercise.mathTopicId}" + "/${exercise.id}"
+                    ExerciseType.GameType -> Exercises.route + "/${exercise.mathTopicId}"
                 })
 
             }
@@ -67,7 +67,7 @@ fun ExerciseGrid(navController: NavController, topic: MathTopic) {
         contentPadding = PaddingValues(15.dp)
     ) {
         items(topic.exercises) { exercise ->
-            ExerciseButton(navController, exercise, topic)
+            ExerciseButton(navController, exercise)
         }
     }
 }

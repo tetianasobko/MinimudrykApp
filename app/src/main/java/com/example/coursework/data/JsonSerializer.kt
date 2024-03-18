@@ -2,20 +2,24 @@ package com.example.coursework.data
 
 import com.example.coursework.models.*
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileWriter
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
-import java.io.InputStream
 
 class JsonSerializer {
     private val gson = Gson()
 
-    fun updateExerciseInMathTopic(mathTopicId: Int, updatedExercise: Exercise, inputStream: InputStream) {
-        val existingMathTopics = deserializeMathTopics(inputStream)
+    fun updateExerciseInMathTopic(updatedExercise: Exercise, filePath: String) {
+        val fileInputStream = FileInputStream(filePath)
 
-        val mathTopicToUpdate = existingMathTopics.find { it.id == mathTopicId }
+        val mathTopics = deserializeMathTopics(filePath)
+
+        fileInputStream.close()
+
+        val mathTopicToUpdate = mathTopics.find { it.id == updatedExercise.mathTopicId }
 
         if (mathTopicToUpdate != null) {
             val updatedExercises = mathTopicToUpdate.exercises.map { existingExercise ->
@@ -26,37 +30,79 @@ class JsonSerializer {
                 }
             }
 
-            mathTopicToUpdate.exercises = updatedExercises
+            val updatedMathTopic = mathTopicToUpdate.copy(exercises = updatedExercises)
 
-            // Write the updated data back to the file
-            val updatedJsonString = gson.toJson(existingMathTopics)
-            val updatedBytes = updatedJsonString.toByteArray()
-            inputStream.close()
-            val outputStream = ByteArrayOutputStream()
-            outputStream.write(updatedBytes)
-
-        } else {
-            println("Math topic with ID $mathTopicId not found.")
-        }
-    }
-
-    private fun writeToJsonFile(mathTopics: List<MathTopic>, file: File) {
-        val jsonString = gson.toJson(mathTopics)
-        try {
-            FileWriter(file).use { writer ->
-                writer.write(jsonString)
+            val updatedMathTopics = mathTopics.map { existingMathTopic ->
+                if (existingMathTopic.id == mathTopicToUpdate.id) {
+                    updatedMathTopic
+                } else {
+                    existingMathTopic
+                }
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
+            val jsonArray = JsonArray()
+
+            updatedMathTopics.forEach { mathTopic ->
+                val jsonTopic = JsonObject()
+                jsonTopic.addProperty("id", mathTopic.id)
+                jsonTopic.addProperty("name", mathTopic.name)
+
+                val jsonExercises = JsonArray()
+                mathTopic.exercises.forEach { exercise ->
+                    jsonExercises.add(serializeExercise(exercise))
+                }
+
+                jsonTopic.add("exercises", jsonExercises)
+                jsonArray.add(jsonTopic)
+            }
+
+            val jsonString = jsonArray.toString()
+            val fileOutputStream = FileOutputStream(filePath)
+            fileOutputStream.write(jsonString.toByteArray())
+        } else {
+            println("Math topic with ID ${updatedExercise.mathTopicId} not found.")
         }
     }
 
+private fun serializeExercise(exercise: Exercise): JsonObject {
+    val jsonExercise = JsonObject()
+    jsonExercise.addProperty("id", exercise.id)
+    jsonExercise.addProperty("name", exercise.name)
+    jsonExercise.addProperty("type", exercise.type.ordinal)
+    jsonExercise.addProperty("mathTopicId", exercise.mathTopicId)
+    jsonExercise.addProperty("description", exercise.description)
+    jsonExercise.addProperty("hint", exercise.hint)
+    jsonExercise.addProperty("isCompleted", exercise.isCompleted)
 
-    fun deserializeMathTopics(inputStream: InputStream): List<MathTopic> {
+    // Additional properties for specific exercise types
+    when (exercise) {
+        is InputQuizExercise -> {
+            jsonExercise.addProperty("correctAnswer", exercise.correctAnswer)
+        }
+
+        is OptionsQuizExercise -> {
+            jsonExercise.add("options", exercise.options.toJsonArray())
+            jsonExercise.addProperty("correctOption", exercise.correctOption)
+        }
+    }
+
+    return jsonExercise
+}
+
+    private fun List<String>.toJsonArray(): JsonArray {
+        val jsonArray = JsonArray()
+        this.forEach { jsonArray.add(it) }
+        return jsonArray
+    }
+
+
+    fun deserializeMathTopics(filePath: String): List<MathTopic> {
+        val fileInputStream = FileInputStream(filePath)
+
         val mathTopics = mutableListOf<MathTopic>()
 
         try {
-            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            val jsonString = fileInputStream.bufferedReader().use { it.readText() }
+            fileInputStream.close()
             val listType = object : TypeToken<List<Map<String, *>>>() {}.type
             val jsonList = gson.fromJson<List<Map<String, *>>>(jsonString, listType)
 
@@ -91,6 +137,7 @@ class JsonSerializer {
         val id = (exercise["id"] as Double).toInt()
         val name = exercise["name"] as String
         val typeValue = (exercise["type"] as Double).toInt()
+        val mathTopicId = (exercise["mathTopicId"] as Double).toInt()
         val description = exercise["description"] as String
         val hint = exercise["hint"] as String
         val isCompleted = exercise["isCompleted"] as Boolean
@@ -100,7 +147,7 @@ class JsonSerializer {
         return when (type) {
             ExerciseType.InputQuizType -> {
                 val correctAnswer = exercise["correctAnswer"] as String
-                InputQuizExercise(id, name, description, hint, isCompleted, correctAnswer)
+                InputQuizExercise(id, name, mathTopicId, description, hint, isCompleted, correctAnswer)
             }
 
             ExerciseType.OptionsQuizType -> {
@@ -109,6 +156,7 @@ class JsonSerializer {
                 OptionsQuizExercise(
                     id,
                     name,
+                    mathTopicId,
                     description,
                     hint,
                     isCompleted,
