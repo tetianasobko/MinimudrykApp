@@ -47,12 +47,12 @@ fun TopicButton(navController: NavController, topic: MathTopic) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     LinearProgressIndicator(
-                        progress = 100f / topic.getProgress(),
+                        progress = topic.getProgress() / 100f,
                         modifier = Modifier
                             .weight(1f)
                             .clip(RoundedCornerShape(8.dp))
                     )
-                    Text(text = "${topic.getProgress()}")
+                    Text(text = "${topic.getProgress()}%")
                 }
             }
             IconButton(onClick = { /*TODO*/ }) {

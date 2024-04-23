@@ -20,13 +20,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.OptionsQuizExercise
 import kotlin.random.Random
 
 @Composable
 fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExercise) {
+    val context = LocalContext.current
+    val topicsRepository = TopicsRepository(context)
+
     val shouldShowRightAnswerDialog = remember { mutableStateOf(false) }
     val shouldShowWrongAnswerDialog = remember { mutableStateOf(false) }
 
@@ -78,6 +83,7 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
                 onClick = {
                     if (selectedOption == exercise.options[exercise.correctOption]) {
                         exercise.complete()
+                        topicsRepository.updateExercise(exercise)
                         shouldShowRightAnswerDialog.value = true
 
                     } else {

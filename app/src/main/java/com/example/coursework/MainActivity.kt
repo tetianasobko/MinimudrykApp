@@ -1,5 +1,6 @@
 package com.example.coursework
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +26,7 @@ import com.example.coursework.ui.theme.CourseworkTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContent {
             CourseworkTheme {
                 // A surface container using the 'background' color from the theme
@@ -40,38 +42,38 @@ class MainActivity : ComponentActivity() {
                         composable(
                             Exercises.route + "/{${Exercises.argTopicId}}",
                             arguments = listOf(navArgument(Exercises.argTopicId) {
-                                type = NavType.IntType
+                                type = NavType.LongType
                             })
                         ) {
                             val topicId =
-                                requireNotNull(it.arguments?.getInt(Exercises.argTopicId)) { "Topic id is null" }
+                                requireNotNull(it.arguments?.getLong(Exercises.argTopicId)) { "Topic id is null" }
                             ExercisesScreen(navController, topicId)
                         }
                         composable(
                             OptionsQuiz.route + "/{${OptionsQuiz.argTopicId}}" + "/{${OptionsQuiz.argExerciseId}}",
                             arguments = listOf(
-                                navArgument(OptionsQuiz.argTopicId) {type = NavType.IntType },
-                                navArgument(OptionsQuiz.argExerciseId) {type = NavType.IntType }
+                                navArgument(OptionsQuiz.argTopicId) {type = NavType.LongType },
+                                navArgument(OptionsQuiz.argExerciseId) {type = NavType.LongType }
                             )
                         ) {
                             val topicId =
-                                requireNotNull(it.arguments?.getInt(OptionsQuiz.argTopicId)) { "Topic id is null" }
+                                requireNotNull(it.arguments?.getLong(OptionsQuiz.argTopicId)) { "Topic id is null" }
                             val exerciseId =
-                                requireNotNull(it.arguments?.getInt(OptionsQuiz.argExerciseId)) { "Exercise id is null" }
+                                requireNotNull(it.arguments?.getLong(OptionsQuiz.argExerciseId)) { "Exercise id is null" }
                             OptionsQuizScreen(navController, topicId, exerciseId)
                         }
                         composable(
                             InputQuiz.route + "/{${OptionsQuiz.argTopicId}}" + "/{${OptionsQuiz.argExerciseId}}",
                             arguments = listOf(navArgument(InputQuiz.argTopicId) {
-                                type = NavType.IntType
+                                type = NavType.LongType
                             }, navArgument(InputQuiz.argExerciseId) {
-                                type = NavType.IntType
+                                type = NavType.LongType
                             })
                         ) {
                             val topicId =
-                                requireNotNull(it.arguments?.getInt(InputQuiz.argTopicId)) { "Topic id is null" }
+                                requireNotNull(it.arguments?.getLong(InputQuiz.argTopicId)) { "Topic id is null" }
                             val exerciseId =
-                                requireNotNull(it.arguments?.getInt(InputQuiz.argExerciseId)) { "Exercise id is null" }
+                                requireNotNull(it.arguments?.getLong(InputQuiz.argExerciseId)) { "Exercise id is null" }
                             InputQuizScreen(navController, topicId, exerciseId)
                         }
                     }

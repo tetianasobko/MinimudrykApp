@@ -19,7 +19,7 @@ import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.OptionsQuizExercise
 
 @Composable
-fun OptionsQuizScreen(navController: NavController, topicId: Int, exerciseId: Int) {
+fun OptionsQuizScreen(navController: NavController, topicId: Long, exerciseId: Long) {
     val context = LocalContext.current
     val topicsRepository = TopicsRepository(context)
     val exercise = topicsRepository.findTopic(topicId).findExercise(exerciseId) as OptionsQuizExercise

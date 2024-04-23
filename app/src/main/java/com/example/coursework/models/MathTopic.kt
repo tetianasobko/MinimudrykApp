@@ -1,17 +1,21 @@
 package com.example.coursework.models
 
 data class MathTopic(
-    val id: Int,
+    var id: Long,
     val name: String,
     var exercises: List<Exercise> = mutableListOf()
 ) {
-    fun findExercise(id: Int) = exercises.first { it.id == id }
+    fun findExercise(id: Long) = exercises.first { it.id == id }
 
     fun getProgress(): Int {
         var count = 0
         for(exercise in exercises) {
             if (exercise.isCompleted) count++
         }
-        return count * 100 / exercises.size
+        if (exercises.isNotEmpty()) {
+            return count * 100 / exercises.size
+        } else {
+            return  0
+        }
     }
 }

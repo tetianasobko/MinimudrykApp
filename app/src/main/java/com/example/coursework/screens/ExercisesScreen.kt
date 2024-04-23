@@ -18,7 +18,7 @@ import com.example.coursework.composables.TopBar
 import com.example.coursework.data.TopicsRepository
 
 @Composable
-fun ExercisesScreen(navController: NavController, topicId: Int) {
+fun ExercisesScreen(navController: NavController, topicId: Long) {
     val context = LocalContext.current
     val topicsRepository = TopicsRepository(context)
     val topic = topicsRepository.findTopic(topicId)

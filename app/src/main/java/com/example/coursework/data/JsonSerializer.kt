@@ -3,9 +3,6 @@ package com.example.coursework.data
 import com.example.coursework.models.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileWriter
 import java.io.IOException
 import java.io.InputStream
 
@@ -29,9 +26,9 @@ class JsonSerializer {
                     val exercises = mutableListOf<Exercise>()
 
                     jsonExercises.forEach { exercise ->
-                        exercises.add(deserializeExercise(gson.toJson(exercise)))
+//                        exercises.add(deserializeExercise(gson.toJson(exercise)))
                     }
-                    val mathTopic = MathTopic(id, name, exercises)
+                    val mathTopic = MathTopic(id as Long, name, exercises)
                     mathTopics.add(mathTopic)
                 }
             }
@@ -45,45 +42,45 @@ class JsonSerializer {
         return mathTopics
     }
 
-    private fun deserializeExercise(jsonString: String): Exercise {
-        val exercise = gson.fromJson(jsonString, Map::class.java) as Map<String, *>
+//    private fun deserializeExercise(jsonString: String): Exercise {
+//        val exercise = gson.fromJson(jsonString, Map::class.java) as Map<String, *>
+//
+//        val id = (exercise["id"] as Double).toInt()
+//        val name = exercise["name"] as String
+//        val typeValue = (exercise["type"] as Double).toInt()
+//        val description = exercise["description"] as String
+//        val hint = exercise["hint"] as String
+//        val isCompleted = exercise["isCompleted"] as Boolean
+//
+//        val type = ExerciseType.entries.find { it.value == typeValue }
+//
+//        return when (type) {
+//            ExerciseType.InputQuizType -> {
+//                val correctAnswer = exercise["correctAnswer"] as String
+//                InputQuizExercise(id, name, description, hint, isCompleted, correctAnswer)
+//            }
+//
+//            ExerciseType.OptionsQuizType -> {
+//                val options = exercise["options"] as List<String>
+//                val correctOption = (exercise["correctOption"] as Double).toInt()
+//                OptionsQuizExercise(
+//                    id,
+//                    name,
+//                    description,
+//                    hint,
+//                    isCompleted,
+//                    options,
+//                    correctOption
+//                )
+//            }
+//
+//            ExerciseType.GameType -> {
+//                // TODO: Implement GameExercise deserialization
+//                throw UnsupportedOperationException("GameExercise deserialization is not implemented")
+//            }
+//            else -> {
+//                throw IllegalArgumentException("Unknown exercise type")
+//            }
+//        }
 
-        val id = (exercise["id"] as Double).toInt()
-        val name = exercise["name"] as String
-        val typeValue = (exercise["type"] as Double).toInt()
-        val description = exercise["description"] as String
-        val hint = exercise["hint"] as String
-        val isCompleted = exercise["isCompleted"] as Boolean
-
-        val type = ExerciseType.entries.find { it.value == typeValue }
-
-        return when (type) {
-            ExerciseType.InputQuizType -> {
-                val correctAnswer = exercise["correctAnswer"] as String
-                InputQuizExercise(id, name, description, hint, isCompleted, correctAnswer)
-            }
-
-            ExerciseType.OptionsQuizType -> {
-                val options = exercise["options"] as List<String>
-                val correctOption = (exercise["correctOption"] as Double).toInt()
-                OptionsQuizExercise(
-                    id,
-                    name,
-                    description,
-                    hint,
-                    isCompleted,
-                    options,
-                    correctOption
-                )
-            }
-
-            ExerciseType.GameType -> {
-                // TODO: Implement GameExercise deserialization
-                throw UnsupportedOperationException("GameExercise deserialization is not implemented")
-            }
-            else -> {
-                throw IllegalArgumentException("Unknown exercise type")
-            }
-        }
-    }
 }
