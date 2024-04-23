@@ -32,8 +32,8 @@ import com.example.coursework.R
 fun WrongAnswerDialog(navController: NavController, onDismissRequest: () -> Unit) {
     Dialog(
         onDismissRequest = onDismissRequest , properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true
+            dismissOnBackPress = false,
+            dismissOnClickOutside = false
         )
     ) {
         Card(

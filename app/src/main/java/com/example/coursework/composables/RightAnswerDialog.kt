@@ -26,8 +26,8 @@ import androidx.navigation.NavController
 fun RightAnswerDialog(navController: NavController, onDismissRequest: () -> Unit) {
     Dialog(
         onDismissRequest = onDismissRequest , properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true
+            dismissOnBackPress = false,
+            dismissOnClickOutside = false
         )
     ) {
         Card(
