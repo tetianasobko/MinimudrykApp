@@ -12,7 +12,7 @@ data class MathTopic(
         for(exercise in exercises) {
             if (exercise.isCompleted) count++
         }
-        if (exercises.isNotEmpty()) {
+        if (exercises.size != 0) {
             return count * 100 / exercises.size
         } else {
             return  0

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.coursework.models.Exercise
 import com.example.coursework.models.ExerciseType
+import com.example.coursework.models.GameExercise
 import com.example.coursework.models.InputQuizExercise
 import com.example.coursework.models.MathTopic
 import com.example.coursework.models.OptionsQuizExercise
@@ -37,6 +38,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
         const val EXERCISE_CORRECT_ANSWER = "correctAnswer"
         const val EXERCISE_OPTIONS = "options"
         const val EXERCISE_CORRECT_OPTION = "correctOption"
+        const val EXERCISE_GAME_NAME = "game"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -63,6 +65,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 "$EXERCISE_CORRECT_ANSWER TEXT," +
                 "$EXERCISE_OPTIONS TEXT," +
                 "$EXERCISE_CORRECT_OPTION INTEGER," +
+                "$EXERCISE_GAME_NAME TEXT," +
                 "FOREIGN KEY($EXERCISE_ID) REFERENCES $EXERCISES_TABLE_NAME($EXERCISE_ID)" +
                 ")"
         db?.execSQL(createAnswersTableQuery)
@@ -111,8 +114,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 }
                 db.insert(ANSWERS_TABLE_NAME, null, answerContentValues)
             }
+
             ExerciseType.GameType -> {
-                throw UnsupportedOperationException("GameExercise deserialization is not implemented")
+                val answerContentValues = ContentValues().apply {
+                    exercise as GameExercise
+                    put(EXERCISE_GAME_NAME, exercise.game)
+                }
+                db.insert(ANSWERS_TABLE_NAME, null, answerContentValues)
             }
             else -> {
                 throw IllegalArgumentException("Unknown exercise type")
@@ -156,9 +164,17 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 val selectionArgs = arrayOf(exercise.id.toString())
                 db.update(ANSWERS_TABLE_NAME, answerContentValues, selection, selectionArgs)
             }
+
             ExerciseType.GameType -> {
-                throw UnsupportedOperationException("GameExercise deserialization is not implemented")
+                val answerContentValues = ContentValues().apply {
+                    exercise as GameExercise
+                    put(EXERCISE_GAME_NAME, exercise.game)
+                }
+                val selection = "$EXERCISE_ID = ?"
+                val selectionArgs = arrayOf(exercise.id.toString())
+                db.update(ANSWERS_TABLE_NAME, answerContentValues, selection, selectionArgs)
             }
+
             else -> {
                 throw IllegalArgumentException("Unknown exercise type")
             }
@@ -169,7 +185,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
 
     fun getAllMathTopics(): List<MathTopic> {
         val topics = mutableListOf<MathTopic>()
-        val db= readableDatabase
+        val db = readableDatabase
         val cursor = db.query("topics", null, null, null, null, null, null)
         while (cursor.moveToNext()) {
             val id = cursor.getLong(cursor.getColumnIndexOrThrow(TOPIC_ID))
@@ -209,7 +225,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
             val mathTopicId = cursor.getLong(cursor.getColumnIndexOrThrow(EXERCISE_TOPIC_ID))
             val description = cursor.getString(cursor.getColumnIndexOrThrow(EXERCISE_DESCRIPTION))
             val hint = cursor.getString(cursor.getColumnIndexOrThrow(EXERCISE_HINT))
-            val isCompleted = cursor.getInt(cursor.getColumnIndexOrThrow(EXERCISE_IS_COMPLETED)) != 0
+            val isCompleted =
+                cursor.getInt(cursor.getColumnIndexOrThrow(EXERCISE_IS_COMPLETED)) != 0
 
             val exercise = when (type) {
                 ExerciseType.InputQuizType -> {
@@ -229,7 +246,15 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                                 null
                             }
                         }
-                    InputQuizExercise(id, name, mathTopicId, description, hint, isCompleted, correctAnswer)
+                    InputQuizExercise(
+                        id,
+                        name,
+                        mathTopicId,
+                        description,
+                        hint,
+                        isCompleted,
+                        correctAnswer
+                    )
                 }
 
                 ExerciseType.OptionsQuizType -> {
@@ -270,11 +295,53 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                             }
                         }
                     if (correctOption != null) {
-                        OptionsQuizExercise(id, name, mathTopicId, description, hint, isCompleted, options, correctOption)
+                        OptionsQuizExercise(
+                            id,
+                            name,
+                            mathTopicId,
+                            description,
+                            hint,
+                            isCompleted,
+                            options,
+                            correctOption
+                        )
                     } else {
 
                     }
                 }
+                    ExerciseType.GameType -> {
+                        val game =
+                            db.query(
+                                ANSWERS_TABLE_NAME,
+                                arrayOf(EXERCISE_GAME_NAME),
+                                "$EXERCISE_ID = ?",
+                                arrayOf(id.toString()),
+                                null,
+                                null,
+                                null
+                            ).use {
+                                if (it.moveToFirst()) {
+                                    it.getString(it.getColumnIndexOrThrow(EXERCISE_GAME_NAME))
+                                } else {
+                                    null
+                                }
+                            }
+                        if (game != null) {
+                            GameExercise(
+                                id,
+                                name,
+                                mathTopicId,
+                                description,
+                                isCompleted,
+                                game
+                            )
+                        } else {
+
+                        }
+
+                    }
+
+
                 else -> {
                     throw IllegalArgumentException("Unknown exercise type")
                 }
@@ -287,6 +354,18 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
         return exercises
     }
 
+    fun dropDatabase() {
+        val db = writableDatabase
+        val dropAnswers = "DROP TABLE $ANSWERS_TABLE_NAME;"
+        db?.execSQL(dropAnswers)
+
+        val dropExercises = "DROP TABLE $EXERCISES_TABLE_NAME;"
+        db?.execSQL(dropExercises)
+
+        val dropTopics = "DROP TABLE $TOPICS_TABLE_NAME;"
+        db?.execSQL(dropTopics)
+    }
+
     fun seedDatabase() {
         val dbHelper = writableDatabase
         // Clear existing data
@@ -295,6 +374,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
 
         // Insert math topics
         val mathTopicId1 = addTopic(MathTopic(id = 1, name = "Задачі"))
+        val mathTopicId3 = addTopic(MathTopic(id = 3, name = "Алгебра"))
 
         // Insert exercises
         val exercises = arrayListOf(
@@ -410,6 +490,15 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 isCompleted = false,
                 options = listOf("Так", "Ні"),
                 correctOption = 0
+            ),
+            GameExercise(
+                id = 13,
+                name = "Алгебра",
+                mathTopicId = mathTopicId3,
+                description = "description",
+                game = "Calculator",
+                isCompleted = false,
+
             )
         )
 
@@ -425,7 +514,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 exercise.mathTopicId
             }
 
-            val contentValues = ContentValues().apply{
+            val contentValues = ContentValues().apply {
                 put(EXERCISE_TOPIC_ID, mathTopicId)
             }
 

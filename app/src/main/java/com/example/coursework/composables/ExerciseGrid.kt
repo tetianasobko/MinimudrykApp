@@ -21,8 +21,9 @@ import androidx.navigation.NavController
 import com.example.coursework.R
 import com.example.coursework.models.Exercise
 import com.example.coursework.models.ExerciseType
+import com.example.coursework.models.GameExercise
 import com.example.coursework.models.MathTopic
-import com.example.coursework.navigation.Exercises
+import com.example.coursework.navigation.Games
 import com.example.coursework.navigation.InputQuiz
 import com.example.coursework.navigation.OptionsQuiz
 
@@ -35,12 +36,11 @@ fun ExerciseButton(navController: NavController, exercise: Exercise, topic: Math
                 when(exercise.type) {
                     ExerciseType.OptionsQuizType -> OptionsQuiz.route + "/${topic.id}" + "/${exercise.id}"
                     ExerciseType.InputQuizType -> InputQuiz.route + "/${topic.id}" + "/${exercise.id}"
-                    ExerciseType.GameType -> Exercises.route + "/${topic.id}"
+                    ExerciseType.GameType -> Games.route + "/${topic.id}" + "/${exercise.id}"
                 })
 
             }
-            catch (e:Exception) {
-                val x = 0
+            catch (_:Exception) {
             }
         },
         shape = RoundedCornerShape(8.dp),

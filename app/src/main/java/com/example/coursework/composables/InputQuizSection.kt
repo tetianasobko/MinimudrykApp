@@ -16,13 +16,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.InputQuizExercise
 
 @Composable
 fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) {
+    val context = LocalContext.current
+    val topicsRepository = TopicsRepository(context)
+
     val shouldShowRightAnswerDialog = remember { mutableStateOf(false) }
     val shouldShowWrongAnswerDialog = remember { mutableStateOf(false) }
 
@@ -59,8 +64,9 @@ fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) 
             Button(
                 onClick = {
                     if (answer.text == exercise.correctAnswer) {
-                        exercise.complete()
                         shouldShowRightAnswerDialog.value = true
+                        exercise.complete()
+                        topicsRepository.updateExercise(exercise)
                     } else {
                         shouldShowWrongAnswerDialog.value = true
                     }

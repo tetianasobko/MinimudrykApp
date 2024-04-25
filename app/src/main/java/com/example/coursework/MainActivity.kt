@@ -13,11 +13,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.coursework.composables.Calculator
 import com.example.coursework.navigation.Exercises
+import com.example.coursework.navigation.Games
 import com.example.coursework.navigation.InputQuiz
 import com.example.coursework.navigation.OptionsQuiz
 import com.example.coursework.navigation.Topics
 import com.example.coursework.screens.ExercisesScreen
+import com.example.coursework.screens.GameScreen
 import com.example.coursework.screens.InputQuizScreen
 import com.example.coursework.screens.OptionsQuizScreen
 import com.example.coursework.screens.TopicsScreen
@@ -63,7 +66,7 @@ class MainActivity : ComponentActivity() {
                             OptionsQuizScreen(navController, topicId, exerciseId)
                         }
                         composable(
-                            InputQuiz.route + "/{${OptionsQuiz.argTopicId}}" + "/{${OptionsQuiz.argExerciseId}}",
+                            InputQuiz.route + "/{${InputQuiz.argTopicId}}" + "/{${InputQuiz.argExerciseId}}",
                             arguments = listOf(navArgument(InputQuiz.argTopicId) {
                                 type = NavType.LongType
                             }, navArgument(InputQuiz.argExerciseId) {
@@ -75,6 +78,21 @@ class MainActivity : ComponentActivity() {
                             val exerciseId =
                                 requireNotNull(it.arguments?.getLong(InputQuiz.argExerciseId)) { "Exercise id is null" }
                             InputQuizScreen(navController, topicId, exerciseId)
+                        }
+                        composable(Games.route + "/{${Games.argTopicId}}" + "/{${Games.argExerciseId}}",
+                            arguments = listOf(navArgument(Games.argTopicId) {
+                                type = NavType.LongType
+                            }, navArgument(Games.argExerciseId) {
+                                type = NavType.LongType
+                            })
+                        ) {
+                            val topicId =
+                                requireNotNull(it.arguments?.getLong(Games.argTopicId)) { "Topic id is null" }
+                            val exerciseId =
+                                requireNotNull(it.arguments?.getLong(Games.argExerciseId)) { "Exercise id is null" }
+
+                            GameScreen(navController = navController, topicId = topicId, exerciseId = exerciseId)
+
                         }
                     }
                 }

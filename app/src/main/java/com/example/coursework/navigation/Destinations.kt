@@ -24,3 +24,9 @@ object InputQuiz: Destinations {
     const val argTopicId = "topicId"
     const val argExerciseId = "exerciseId"
 }
+
+object Games : Destinations {
+    override val route = "GameScreen"
+    const val argTopicId = "topicId"
+    const val argExerciseId = "exerciseId"
+}

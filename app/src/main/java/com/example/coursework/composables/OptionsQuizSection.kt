@@ -82,8 +82,8 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
             Button(
                 onClick = {
                     if (selectedOption == exercise.options[exercise.correctOption]) {
-                        exercise.complete()
                         topicsRepository.updateExercise(exercise)
+                        exercise.complete()
                         shouldShowRightAnswerDialog.value = true
 
                     } else {

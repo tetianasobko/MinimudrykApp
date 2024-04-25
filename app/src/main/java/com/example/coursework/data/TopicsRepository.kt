@@ -6,7 +6,6 @@ import com.example.coursework.models.Exercise
 import com.example.coursework.models.MathTopic
 
 class TopicsRepository(private val context: Context) {
-    private val fileName = "topics.json"
     private val db = DBHelper(context)
     private var topics = listOf<MathTopic>()
     init {
@@ -16,8 +15,9 @@ class TopicsRepository(private val context: Context) {
     fun findTopic(id: Long) = topics.first { it.id == id }
     fun getTopicsAll() = topics
     private fun getAllTopicsFromDB() {
+//        db.onCreate(db.writableDatabase)
+//        db.dropDatabase()
         val topics = db.getAllMathTopics()
-
         if (topics.isEmpty()) {
             db.seedDatabase()
         }
