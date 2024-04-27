@@ -13,7 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.coursework.composables.Calculator
 import com.example.coursework.navigation.Exercises
 import com.example.coursework.navigation.Games
 import com.example.coursework.navigation.InputQuiz
@@ -92,7 +91,6 @@ class MainActivity : ComponentActivity() {
                                 requireNotNull(it.arguments?.getLong(Games.argExerciseId)) { "Exercise id is null" }
 
                             GameScreen(navController = navController, topicId = topicId, exerciseId = exerciseId)
-
                         }
                     }
                 }

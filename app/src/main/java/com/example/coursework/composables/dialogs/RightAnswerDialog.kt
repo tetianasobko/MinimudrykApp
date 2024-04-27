@@ -1,4 +1,4 @@
-package com.example.coursework.composables
+package com.example.coursework.composables.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -21,11 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
+import com.example.coursework.ui.theme.lightBlue
 
 @Composable
 fun RightAnswerDialog(navController: NavController, onDismissRequest: () -> Unit) {
     Dialog(
-        onDismissRequest = onDismissRequest , properties = DialogProperties(
+        onDismissRequest = onDismissRequest, properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false
         )
@@ -46,11 +48,14 @@ fun RightAnswerDialog(navController: NavController, onDismissRequest: () -> Unit
             ) {
                 Icon(Icons.Default.ThumbUp, contentDescription = "ThumbsUp")
                 Text(text = "Вітаюююююю")
-                Text(text = "Ти файно справився з тестом!")
-                Button(onClick = {
-                    navController.navigateUp()
-                }, shape = RoundedCornerShape(8.dp)) {
-                    Text(text = "Продовжити")
+                Text(text = "Ти файно справився!")
+                Button(
+                    onClick = {
+                        navController.navigateUp()
+                    }, shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(lightBlue)
+                ) {
+                    Text(text = "Продовжити", color = Color.White)
                 }
             }
 

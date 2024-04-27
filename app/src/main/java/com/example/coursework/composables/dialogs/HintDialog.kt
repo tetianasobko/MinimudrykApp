@@ -1,17 +1,13 @@
-package com.example.coursework.composables
+package com.example.coursework.composables.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -27,13 +23,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.coursework.R
+import com.example.coursework.ui.theme.darkGrey
+import com.example.coursework.ui.theme.lightBlue
 
 @Composable
-fun WrongAnswerDialog(navController: NavController, onDismissRequest: () -> Unit) {
+fun HintDialog(navController: NavController, onDismissRequest: () -> Unit, hint: String) {
     Dialog(
-        onDismissRequest = onDismissRequest , properties = DialogProperties(
-            dismissOnBackPress = false,
-            dismissOnClickOutside = false
+        onDismissRequest = onDismissRequest, properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
         )
     ) {
         Card(
@@ -42,28 +40,30 @@ fun WrongAnswerDialog(navController: NavController, onDismissRequest: () -> Unit
             ), elevation = CardDefaults.cardElevation(
                 defaultElevation = 8.dp
             ), modifier = Modifier
-                .wrapContentHeight()
                 .fillMaxWidth(.8f)
+                .height(200.dp)
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth().padding(15.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
-                Icon(painter = painterResource(id = R.drawable.sad_cat), contentDescription = "ThumbsUp")
-                Text(text = "Ой-йой...")
-                Text(text = "Не зовсім правильно.\nСпробуй ще раз!", textAlign = TextAlign.Center)
-                Button(onClick = onDismissRequest, shape = RoundedCornerShape(8.dp)) {
-                    Text(text = "Спробувати ще раз")
+                Icon(
+                    painter = painterResource(id = R.drawable.hint),
+                    contentDescription = "ThumbsUp"
+                )
+                Text(text = hint, color = darkGrey, textAlign = TextAlign.Center)
+                Button(
+                    onClick = onDismissRequest,
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        lightBlue
+                    )
+                ) {
+                    Text(text = "Ок", color = Color.White)
                 }
             }
 
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun Prev() {
-//    RightAnswerDialog()
-//}

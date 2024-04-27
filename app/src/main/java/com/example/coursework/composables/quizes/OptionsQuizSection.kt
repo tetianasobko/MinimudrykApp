@@ -1,5 +1,6 @@
-package com.example.coursework.composables
+package com.example.coursework.composables.quizes
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.coursework.composables.dialogs.RightAnswerDialog
+import com.example.coursework.composables.dialogs.WrongAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.OptionsQuizExercise
+import com.example.coursework.ui.theme.darkGrey
+import com.example.coursework.ui.theme.green
+import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.lightGrey
 import kotlin.random.Random
 
 @Composable
@@ -40,7 +47,7 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
     }
 
     if (shouldShowWrongAnswerDialog.value) {
-        WrongAnswerDialog(onDismissRequest = { shouldShowWrongAnswerDialog.value = false }, navController = navController)
+        WrongAnswerDialog(onDismissRequest = { shouldShowWrongAnswerDialog.value = false })
     }
 
     var selectedOption by remember {
@@ -69,7 +76,8 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
                         onClick = {
                             selectedOption = option
                         },
-                        colors = ButtonDefaults.buttonColors(if (option == selectedOption) Color.Magenta else Color.LightGray),
+                        colors = ButtonDefaults.buttonColors(lightGrey),
+                        border = BorderStroke(3.dp, color = if (option == selectedOption) lightBlue else lightGrey),
                         shape = RoundedCornerShape(8.dp),
                         contentPadding = PaddingValues(17.dp),
                         modifier = Modifier
@@ -90,11 +98,12 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
                         shouldShowWrongAnswerDialog.value = true
                     }
                 },
+                colors = ButtonDefaults.buttonColors(lightBlue),
                 enabled = selectedOption.isNotBlank(),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text(text = "Answer")
+                Text(text = "Answer", color = if (selectedOption.isNotBlank()) Color.White else darkGrey)
             }
         }
     }

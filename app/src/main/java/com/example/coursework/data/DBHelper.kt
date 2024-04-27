@@ -122,6 +122,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 }
                 db.insert(ANSWERS_TABLE_NAME, null, answerContentValues)
             }
+
             else -> {
                 throw IllegalArgumentException("Unknown exercise type")
             }
@@ -309,37 +310,38 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
 
                     }
                 }
-                    ExerciseType.GameType -> {
-                        val game =
-                            db.query(
-                                ANSWERS_TABLE_NAME,
-                                arrayOf(EXERCISE_GAME_NAME),
-                                "$EXERCISE_ID = ?",
-                                arrayOf(id.toString()),
-                                null,
-                                null,
-                                null
-                            ).use {
-                                if (it.moveToFirst()) {
-                                    it.getString(it.getColumnIndexOrThrow(EXERCISE_GAME_NAME))
-                                } else {
-                                    null
-                                }
-                            }
-                        if (game != null) {
-                            GameExercise(
-                                id,
-                                name,
-                                mathTopicId,
-                                description,
-                                isCompleted,
-                                game
-                            )
-                        } else {
 
+                ExerciseType.GameType -> {
+                    val game =
+                        db.query(
+                            ANSWERS_TABLE_NAME,
+                            arrayOf(EXERCISE_GAME_NAME),
+                            "$EXERCISE_ID = ?",
+                            arrayOf(id.toString()),
+                            null,
+                            null,
+                            null
+                        ).use {
+                            if (it.moveToFirst()) {
+                                it.getString(it.getColumnIndexOrThrow(EXERCISE_GAME_NAME))
+                            } else {
+                                null
+                            }
                         }
+                    if (game != null) {
+                        GameExercise(
+                            id,
+                            name,
+                            mathTopicId,
+                            description,
+                            isCompleted,
+                            game
+                        )
+                    } else {
 
                     }
+
+                }
 
 
                 else -> {
@@ -374,6 +376,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
 
         // Insert math topics
         val mathTopicId1 = addTopic(MathTopic(id = 1, name = "Задачі"))
+        val mathTopicId2 = addTopic(MathTopic(id = 2, name = "Логіка"))
         val mathTopicId3 = addTopic(MathTopic(id = 3, name = "Алгебра"))
 
         // Insert exercises
@@ -498,7 +501,14 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 description = "description",
                 game = "Calculator",
                 isCompleted = false,
-
+            ),
+            GameExercise(
+                id = 14,
+                name = "Множинна гонка до 1000",
+                mathTopicId = mathTopicId2,
+                description = "Перший гравець називає ціле число від 2 до 9. Другий гравець множить це число на довільне ціле число від 2 до 9. Потім перший множить результат на будь-яке ціле число від 2 до 9, і так далі. Виграє той, хто першим отримає добуток більший, ніж 1000.",
+                game = "MultiplicativeRace",
+                isCompleted = false,
             )
         )
 

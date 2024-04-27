@@ -1,4 +1,4 @@
-package com.example.coursework.composables
+package com.example.coursework.composables.games
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -32,13 +32,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.coursework.composables.dialogs.RightAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.Exercise
+import com.example.coursework.ui.theme.darkGrey
+import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.mediumGrey
 import javax.script.ScriptEngineManager
 import kotlin.random.Random
 
 @Composable
-fun Calculator(navController: NavController, exercise: Exercise) {
+fun CalculatorGame(navController: NavController, exercise: Exercise) {
+    val textColor = darkGrey
     val context = LocalContext.current
     val topicsRepository = TopicsRepository(context)
 
@@ -72,6 +77,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
 
         Text(
             text = "$finalNumber = ",
+            color = textColor,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Light,
             fontSize = 40.sp,
@@ -84,6 +90,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             item {
                 Text(
                     text = expression,
+                    color = textColor,
                     textAlign = TextAlign.End,
                     fontWeight = FontWeight.Light,
                     fontSize = 40.sp,
@@ -95,6 +102,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
         }
         Text(
             text = "$currentNumber",
+            color = textColor,
             modifier = Modifier
                 .padding(5.dp)
                 .align(Alignment.End)
@@ -104,10 +112,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
-                .height(
-                    2
-                        .dp
-                )
+                .height(1.dp)
         )
         Row(
             modifier = Modifier
@@ -117,13 +122,13 @@ fun Calculator(navController: NavController, exercise: Exercise) {
         ) {
             CalculatorButton(
                 symbol = "$startNumber",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
                     .clickable {
                         if (expression.isNotEmpty()) {
                             val lastChar = expression.last()
-                            // if last char is not a operator, add a multiplication operator before the parenthesis
                             if (lastChar !in "$startNumber") {
                                 if (lastChar == ')') expression += "×"
                                 expression += "$startNumber"
@@ -142,6 +147,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = "AC",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -152,13 +158,13 @@ fun Calculator(navController: NavController, exercise: Exercise) {
 
             CalculatorButton(
                 symbol = "(",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
                     .clickable {
                         if (expression.isNotEmpty()) {
                             val lastChar = expression.last()
-                            // if last char is not a operator, add a multiplication operator before the parenthesis
                             if (lastChar !in "+-×÷^√(") {
                                 expression += "×"
                             }
@@ -168,6 +174,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = ")",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -192,6 +199,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
         ) {
             CalculatorButton(
                 symbol = "+",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -201,6 +209,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = "-",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -210,6 +219,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = "×",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -219,6 +229,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = "÷",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -235,7 +246,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
         ) {
             CalculatorButton(
                 symbol = "^",
-//                        color = PrussianBlue,
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -247,7 +258,6 @@ fun Calculator(navController: NavController, exercise: Exercise) {
                                 expression = expression.dropLast(1)
                                 expression += "^("
                             }
-                            // if last char is an operator, replace it with the new operator
                             if (lastChar in "0123456789") {
                                 expression += "^("
                             }
@@ -258,6 +268,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
 
             CalculatorButton(
                 symbol = "√",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -273,6 +284,7 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = "Del",
+                color = mediumGrey,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
@@ -306,13 +318,12 @@ fun Calculator(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = "✓",
-                color = Color.Blue,
+                color = lightBlue,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)
                     .clickable {
                         equation = transformExpression(expression)
-
                         try {
                             currentNumber = evaluate(equation)
 

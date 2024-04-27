@@ -2,7 +2,8 @@ package com.example.coursework.models
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.example.coursework.composables.CalculatorGame
+import com.example.coursework.composables.games.CalculatorGame
+import com.example.coursework.composables.games.MultiplicativeRaceGame
 
 data class GameExercise(
     override var id: Long,
@@ -16,6 +17,8 @@ data class GameExercise(
     fun getGame(navController: NavController) {
         if (this.game == "Calculator") {
             CalculatorGame(navController = navController, this)
+        } else if (this.game == "MultiplicativeRace") {
+            MultiplicativeRaceGame(navController = navController, exercise = this)
         }
     }
 }

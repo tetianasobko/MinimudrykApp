@@ -13,10 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.coursework.composables.OptionsQuizSection
+import com.example.coursework.composables.quizes.OptionsQuizSection
 import com.example.coursework.composables.TopBar
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.OptionsQuizExercise
+import com.example.coursework.ui.theme.lightBlue
 
 @Composable
 fun OptionsQuizScreen(navController: NavController, topicId: Long, exerciseId: Long) {
@@ -30,7 +31,7 @@ fun OptionsQuizScreen(navController: NavController, topicId: Long, exerciseId: L
                 .fillMaxHeight(.35f)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(bottomEnd = 15.dp, bottomStart = 15.dp))
-                .background(Color.Gray)
+                .background(lightBlue)
         ) {
             TopBar(navController = navController, text = exercise.name, color = Color.White)
         }
