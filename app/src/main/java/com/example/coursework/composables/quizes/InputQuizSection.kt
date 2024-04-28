@@ -3,7 +3,6 @@
 package com.example.coursework.composables.quizes
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -35,7 +33,7 @@ import com.example.coursework.composables.dialogs.WrongAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.InputQuizExercise
 import com.example.coursework.ui.theme.darkGrey
-import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.trueBlue
 
 @Composable
 fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) {
@@ -74,7 +72,7 @@ fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) 
                 value = answer,
                 onValueChange = { answer = it },
                 shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.border(BorderStroke(width = 2.dp, color = lightBlue), RoundedCornerShape(8.dp)),
+                modifier = Modifier.border(BorderStroke(width = 2.dp, color = trueBlue), RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
@@ -91,7 +89,7 @@ fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) 
                         shouldShowWrongAnswerDialog.value = true
                     }
                 },
-                colors = ButtonDefaults.buttonColors(lightBlue),
+                colors = ButtonDefaults.buttonColors(trueBlue),
                 enabled = answer.text.isNotBlank(),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.align(Alignment.End)

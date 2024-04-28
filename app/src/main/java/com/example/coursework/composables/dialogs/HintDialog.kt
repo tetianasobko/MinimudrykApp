@@ -24,7 +24,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.example.coursework.R
 import com.example.coursework.ui.theme.darkGrey
-import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.trueBlue
 
 @Composable
 fun HintDialog(navController: NavController, onDismissRequest: () -> Unit, hint: String) {
@@ -57,7 +57,7 @@ fun HintDialog(navController: NavController, onDismissRequest: () -> Unit, hint:
                     onClick = onDismissRequest,
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
-                        lightBlue
+                        trueBlue
                     )
                 ) {
                     Text(text = "Ок", color = Color.White)

@@ -496,10 +496,10 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
             ),
             GameExercise(
                 id = 13,
-                name = "Алгебра",
-                mathTopicId = mathTopicId3,
-                description = "description",
-                game = "Calculator",
+                name = "Лабіринт Прямокутника",
+                mathTopicId = 2,
+                description = "У прямокутнику 5 на 9 в лівону нижньому кутку стоїть фішка. Гравці по черзі пересувають її на будь-яку кількість клітинок або вгору, або вправо. Виграє той, хто поставить фішку в правий верхній кут.",
+                game = "RectangularPuzzle",
                 isCompleted = false,
             ),
             GameExercise(
@@ -508,6 +508,14 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 mathTopicId = mathTopicId2,
                 description = "Перший гравець називає ціле число від 2 до 9. Другий гравець множить це число на довільне ціле число від 2 до 9. Потім перший множить результат на будь-яке ціле число від 2 до 9, і так далі. Виграє той, хто першим отримає добуток більший, ніж 1000.",
                 game = "MultiplicativeRace",
+                isCompleted = false,
+            ),
+            GameExercise(
+                id = 15,
+                name = "Алгебра",
+                mathTopicId = mathTopicId3,
+                description = "description",
+                game = "Calculator",
                 isCompleted = false,
             )
         )

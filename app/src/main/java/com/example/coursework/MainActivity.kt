@@ -13,6 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.coursework.composables.games.RectangularPuzzleGame
+import com.example.coursework.models.GameExercise
 import com.example.coursework.navigation.Exercises
 import com.example.coursework.navigation.Games
 import com.example.coursework.navigation.InputQuiz

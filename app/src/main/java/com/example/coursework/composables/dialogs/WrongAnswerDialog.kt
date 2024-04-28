@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.coursework.R
-import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.trueBlue
 
 @Composable
 fun WrongAnswerDialog(onDismissRequest: () -> Unit) {
@@ -39,7 +39,6 @@ fun WrongAnswerDialog(onDismissRequest: () -> Unit) {
                 defaultElevation = 8.dp
             ), modifier = Modifier
                 .wrapContentHeight()
-//                .fillMaxWidth(.8f)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -56,7 +55,7 @@ fun WrongAnswerDialog(onDismissRequest: () -> Unit) {
                 Text(text = "Схоже щось не так.\nСпробуй ще раз!", textAlign = TextAlign.Center)
                 Button(
                     onClick = onDismissRequest, shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(lightBlue)
+                    colors = ButtonDefaults.buttonColors(trueBlue)
                 ) {
                     Text(text = "Спробувати ще раз", color = Color.White)
                 }

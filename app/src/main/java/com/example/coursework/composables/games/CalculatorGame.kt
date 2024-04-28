@@ -36,7 +36,7 @@ import com.example.coursework.composables.dialogs.RightAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.Exercise
 import com.example.coursework.ui.theme.darkGrey
-import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.trueBlue
 import com.example.coursework.ui.theme.mediumGrey
 import javax.script.ScriptEngineManager
 import kotlin.random.Random
@@ -318,7 +318,7 @@ fun CalculatorGame(navController: NavController, exercise: Exercise) {
             )
             CalculatorButton(
                 symbol = "✓",
-                color = lightBlue,
+                color = trueBlue,
                 modifier = Modifier
                     .aspectRatio(1f)
                     .weight(1f)

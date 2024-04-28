@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
-import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.trueBlue
 
 @Composable
 fun RightAnswerDialog(navController: NavController, onDismissRequest: () -> Unit) {
@@ -53,7 +53,7 @@ fun RightAnswerDialog(navController: NavController, onDismissRequest: () -> Unit
                     onClick = {
                         navController.navigateUp()
                     }, shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(lightBlue)
+                    colors = ButtonDefaults.buttonColors(trueBlue)
                 ) {
                     Text(text = "Продовжити", color = Color.White)
                 }

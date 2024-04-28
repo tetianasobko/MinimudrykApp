@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.coursework.composables.games.CalculatorGame
 import com.example.coursework.composables.games.MultiplicativeRaceGame
+import com.example.coursework.composables.games.RectangularPuzzleGame
 
 data class GameExercise(
     override var id: Long,
@@ -15,10 +16,10 @@ data class GameExercise(
 ) : Exercise(id, name, ExerciseType.GameType, mathTopicId, description, "", isCompleted) {
     @Composable
     fun getGame(navController: NavController) {
-        if (this.game == "Calculator") {
-            CalculatorGame(navController = navController, this)
-        } else if (this.game == "MultiplicativeRace") {
-            MultiplicativeRaceGame(navController = navController, exercise = this)
+        when(this.game) {
+            "Calculator" -> CalculatorGame(navController = navController, exercise = this)
+            "MultiplicativeRace" -> MultiplicativeRaceGame(navController = navController, exercise = this)
+            "RectangularPuzzle" -> RectangularPuzzleGame(navController = navController, exercise = this)
         }
     }
 }

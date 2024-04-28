@@ -43,8 +43,8 @@ import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.Exercise
 import com.example.coursework.navigation.Games
 import com.example.coursework.ui.theme.darkGrey
-import com.example.coursework.ui.theme.lightBlue
 import com.example.coursework.ui.theme.mediumGrey
+import com.example.coursework.ui.theme.trueBlue
 
 @Composable
 fun MultiplicativeRaceGame(navController: NavController, exercise: Exercise) {
@@ -66,8 +66,14 @@ fun MultiplicativeRaceGame(navController: NavController, exercise: Exercise) {
 
     if (shouldShowWrongAnswerDialog.value) {
         WrongAnswerDialog(
-            onDismissRequest = { shouldShowWrongAnswerDialog.value = false
-                               navController.navigate(Games.route + "/{${exercise.mathTopicId}}" + "/{${exercise.id}}")},
+            onDismissRequest = {
+                try {
+                    shouldShowWrongAnswerDialog.value = false
+                    navController.navigate(Games.route + "/${exercise.mathTopicId}" + "/${exercise.id}")
+                } catch (e: Exception ){
+                    var i =9
+                }
+            },
         )
     }
     var currentNumber by remember {
@@ -95,6 +101,57 @@ fun MultiplicativeRaceGame(navController: NavController, exercise: Exercise) {
         action = "$multiplier"
     }
 
+    fun calculateAction() {
+        if (turn && currentNumber <= 1000) {
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    when (currentNumber) {
+                        in 2..9 -> {
+                            val number = 25 / currentNumber - 1
+                            if (number in 2..9) {
+                                makeMove(number)
+                            } else {
+                                makeMove(2)
+                            }
+                        }
+
+                        in 25..54 -> {
+                            val number = 111 / currentNumber - 1
+                            if (number in 2..9) {
+                                makeMove(number)
+                            } else {
+                                makeMove(2)
+                            }
+                        }
+
+                        in 111..999 -> {
+                            val number = 1000 / currentNumber + 1
+                            if (number in 2..9) {
+                                makeMove(number)
+                            } else {
+                                makeMove(2)
+                            }
+                        }
+
+                        else -> makeMove(2)
+                    }
+                    currentNumber *= multiplier
+                    result = "$currentNumber"
+                    turn = false
+                    if (currentNumber > 1000) {
+                        Handler(Looper.getMainLooper()).postDelayed(
+                            {
+                                shouldShowWrongAnswerDialog.value = true
+                            },
+                            500
+                        )
+                    }
+                },
+                2000
+            )
+        }
+    }
+
     val buttonSpacing = 10.dp
     Box(
         modifier = Modifier
@@ -117,52 +174,18 @@ fun MultiplicativeRaceGame(navController: NavController, exercise: Exercise) {
                 fontWeight = FontWeight.Medium,
                 fontSize = 40.sp,
             )
-            if (turn && currentNumber <= 1000) {
-                Handler(Looper.getMainLooper()).postDelayed(
-                    {
-                        when (currentNumber) {
-                            in 2..9 -> {
-                                val number = 25 / currentNumber - 1
-                                if (number in 2..9) {
-                                    makeMove(number)
-                                } else {
-                                    makeMove(2)
-                                }
-                            }
-
-                            in 25..54 -> makeMove(2)
-                            in 111..999 -> {
-                                val number = 1000 / currentNumber + 1
-                                if (number in 2..9) {
-                                    makeMove(number)
-                                } else {
-                                    makeMove(2)
-                                }
-                            }
-
-                            else -> makeMove(2)
-                        }
-                        currentNumber *= multiplier
-                        result = "$currentNumber"
-                        turn = false
-                        if(currentNumber > 1000) {
-                            Handler(Looper.getMainLooper()).postDelayed(
-                                {
-                                    shouldShowWrongAnswerDialog.value = true
-                                },
-                                500
-                            )
-                        }
-                    },
-                    2000
-                )
-            }
+            calculateAction()
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
             )
             Row {
-                Text(text = "Хід:", color = textColor, fontSize = 15.sp, modifier = Modifier.weight(1f))
+                Text(
+                    text = "Хід:",
+                    color = textColor,
+                    fontSize = 15.sp,
+                    modifier = Modifier.weight(1f)
+                )
                 Text(
                     text = action,
                     color = textColor,
@@ -306,7 +329,7 @@ fun MultiplicativeRaceGame(navController: NavController, exercise: Exercise) {
                 ) {
                     CalculatorButton(
                         symbol = "=",
-                        color = lightBlue,
+                        color = trueBlue,
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)

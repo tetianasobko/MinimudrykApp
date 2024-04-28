@@ -29,7 +29,6 @@ import com.example.coursework.composables.dialogs.HintDialog
 import com.example.coursework.models.Exercise
 import com.example.coursework.ui.theme.darkGrey
 import com.example.coursework.ui.theme.lightGrey
-import com.example.coursework.ui.theme.sunny
 
 @Composable
 fun QuizCard(navController: NavController, exercise: Exercise) {

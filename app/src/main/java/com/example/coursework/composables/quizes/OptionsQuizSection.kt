@@ -29,8 +29,7 @@ import com.example.coursework.composables.dialogs.WrongAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.OptionsQuizExercise
 import com.example.coursework.ui.theme.darkGrey
-import com.example.coursework.ui.theme.green
-import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.trueBlue
 import com.example.coursework.ui.theme.lightGrey
 import kotlin.random.Random
 
@@ -77,7 +76,7 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
                             selectedOption = option
                         },
                         colors = ButtonDefaults.buttonColors(lightGrey),
-                        border = BorderStroke(3.dp, color = if (option == selectedOption) lightBlue else lightGrey),
+                        border = BorderStroke(3.dp, color = if (option == selectedOption) trueBlue else lightGrey),
                         shape = RoundedCornerShape(8.dp),
                         contentPadding = PaddingValues(17.dp),
                         modifier = Modifier
@@ -98,7 +97,7 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
                         shouldShowWrongAnswerDialog.value = true
                     }
                 },
-                colors = ButtonDefaults.buttonColors(lightBlue),
+                colors = ButtonDefaults.buttonColors(trueBlue),
                 enabled = selectedOption.isNotBlank(),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.align(Alignment.End)

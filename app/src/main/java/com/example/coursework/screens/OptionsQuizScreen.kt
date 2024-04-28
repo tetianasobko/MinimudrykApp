@@ -17,7 +17,7 @@ import com.example.coursework.composables.quizes.OptionsQuizSection
 import com.example.coursework.composables.TopBar
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.OptionsQuizExercise
-import com.example.coursework.ui.theme.lightBlue
+import com.example.coursework.ui.theme.trueBlue
 
 @Composable
 fun OptionsQuizScreen(navController: NavController, topicId: Long, exerciseId: Long) {
@@ -31,7 +31,7 @@ fun OptionsQuizScreen(navController: NavController, topicId: Long, exerciseId: L
                 .fillMaxHeight(.35f)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(bottomEnd = 15.dp, bottomStart = 15.dp))
-                .background(lightBlue)
+                .background(trueBlue)
         ) {
             TopBar(navController = navController, text = exercise.name, color = Color.White)
         }
