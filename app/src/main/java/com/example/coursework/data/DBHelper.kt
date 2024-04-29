@@ -398,32 +398,32 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 hint = "Згадайте властивості кутів у трикутнику.",
                 isCompleted = false,
                 options = listOf("Гострокутний", "Тупокутний", "Прямий"),
-                correctOption = 0
+                correctOption = 2
             ),
             InputQuizExercise(
                 id = 3,
-                name = "Ступінь сімки 1",
+                name = "Степінь сімки 1",
                 mathTopicId = mathTopicId1,
                 description = "Знайдіть останню цифру числа 7^7",
-                hint = "Досліджуйте останні цифри при піднятті сімки в ступені.",
+                hint = "Досліджуйте останні цифри при піднятті сімки в степені.",
                 isCompleted = false,
                 correctAnswer = "3"
             ),
             InputQuizExercise(
                 id = 4,
-                name = "Ступінь сімки 2",
+                name = "Степінь сімки 2",
                 mathTopicId = mathTopicId1,
                 description = "Знайдіть останню цифру числа 7^(7^7)",
-                hint = "Досліджуйте останні цифри при піднятті сімки в ступені.",
+                hint = "Досліджуйте останні цифри при піднятті сімки в степені.",
                 isCompleted = false,
                 correctAnswer = "3"
             ),
             InputQuizExercise(
                 id = 5,
-                name = "Ступінь сімки 3",
+                name = "Степінь сімки 3",
                 mathTopicId = mathTopicId1,
                 description = "Знайдіть останню цифру числа 7^(7^(7^7))",
-                hint = "Досліджуйте останні цифри при піднятті сімки в ступені.",
+                hint = "Досліджуйте останні цифри при піднятті сімки в степені.",
                 isCompleted = false,
                 correctAnswer = "3"
             ),
@@ -496,14 +496,22 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
             ),
             GameExercise(
                 id = 13,
+                name = "Горизонтальна Перестановка",
+                mathTopicId = mathTopicId2,
+                description = "Двоє грають на дошці 2×10. У першому стовпці в обох клітинах стоять фішки першого гравця, а в десятому стовпці - фішки другого. На своєму ході гравець пересуває будь-яку свою фішку на будь-яку вільну клітину тієї ж горизонталі, не перестрибуючи при цьому через фішку іншого гравця. Програє той, хто не може зробити хід.\n",
+                game = "HorizontalShuffle",
+                isCompleted = false,
+            ),
+            GameExercise(
+                id = 14,
                 name = "Лабіринт Прямокутника",
-                mathTopicId = 2,
+                mathTopicId = mathTopicId2,
                 description = "У прямокутнику 5 на 9 в лівону нижньому кутку стоїть фішка. Гравці по черзі пересувають її на будь-яку кількість клітинок або вгору, або вправо. Виграє той, хто поставить фішку в правий верхній кут.",
                 game = "RectangularPuzzle",
                 isCompleted = false,
             ),
             GameExercise(
-                id = 14,
+                id = 15,
                 name = "Множинна гонка до 1000",
                 mathTopicId = mathTopicId2,
                 description = "Перший гравець називає ціле число від 2 до 9. Другий гравець множить це число на довільне ціле число від 2 до 9. Потім перший множить результат на будь-яке ціле число від 2 до 9, і так далі. Виграє той, хто першим отримає добуток більший, ніж 1000.",
@@ -511,21 +519,19 @@ class DBHelper(context: Context) : SQLiteOpenHelper(
                 isCompleted = false,
             ),
             GameExercise(
-                id = 15,
+                id = 16,
                 name = "Алгебра",
                 mathTopicId = mathTopicId3,
-                description = "description",
+                description = "Необхідно виразити число A через число B за допомогою різних математичних операцій",
                 game = "Calculator",
                 isCompleted = false,
             )
         )
 
-        // Insert exercises into the database
         for (exercise in exercises) {
             val exerciseId = addExercise(exercise)
             exercise.id = exerciseId
 
-            // Associate the exercise with the math topic
             val mathTopicId = if (exercise.mathTopicId == 0L) {
                 mathTopicId1
             } else {

@@ -28,9 +28,10 @@ import com.example.coursework.composables.dialogs.RightAnswerDialog
 import com.example.coursework.composables.dialogs.WrongAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.OptionsQuizExercise
+import com.example.coursework.navigation.Exercises
 import com.example.coursework.ui.theme.darkGrey
-import com.example.coursework.ui.theme.trueBlue
 import com.example.coursework.ui.theme.lightGrey
+import com.example.coursework.ui.theme.trueBlue
 import kotlin.random.Random
 
 @Composable
@@ -42,7 +43,9 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
     val shouldShowWrongAnswerDialog = remember { mutableStateOf(false) }
 
     if (shouldShowRightAnswerDialog.value) {
-        RightAnswerDialog(onDismissRequest = { shouldShowRightAnswerDialog.value = false }, navController = navController)
+        RightAnswerDialog(
+            onClick = { navController.navigate(Exercises.route + "/${exercise.mathTopicId}") },
+            onDismissRequest = { shouldShowRightAnswerDialog.value = false })
     }
 
     if (shouldShowWrongAnswerDialog.value) {
@@ -76,7 +79,10 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
                             selectedOption = option
                         },
                         colors = ButtonDefaults.buttonColors(lightGrey),
-                        border = BorderStroke(3.dp, color = if (option == selectedOption) trueBlue else lightGrey),
+                        border = BorderStroke(
+                            3.dp,
+                            color = if (option == selectedOption) trueBlue else lightGrey
+                        ),
                         shape = RoundedCornerShape(8.dp),
                         contentPadding = PaddingValues(17.dp),
                         modifier = Modifier
@@ -89,10 +95,9 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
             Button(
                 onClick = {
                     if (selectedOption == exercise.options[exercise.correctOption]) {
-                        topicsRepository.updateExercise(exercise)
-                        exercise.complete()
                         shouldShowRightAnswerDialog.value = true
-
+                        exercise.complete()
+                        topicsRepository.updateExercise(exercise)
                     } else {
                         shouldShowWrongAnswerDialog.value = true
                     }
@@ -102,7 +107,10 @@ fun OptionsQuizSection(navController: NavController, exercise: OptionsQuizExerci
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text(text = "Answer", color = if (selectedOption.isNotBlank()) Color.White else darkGrey)
+                Text(
+                    text = "Перевірити",
+                    color = if (selectedOption.isNotBlank()) Color.White else darkGrey
+                )
             }
         }
     }

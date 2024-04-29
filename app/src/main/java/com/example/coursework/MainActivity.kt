@@ -13,8 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.coursework.composables.games.RectangularPuzzleGame
-import com.example.coursework.models.GameExercise
 import com.example.coursework.navigation.Exercises
 import com.example.coursework.navigation.Games
 import com.example.coursework.navigation.InputQuiz
@@ -43,6 +41,7 @@ class MainActivity : ComponentActivity() {
                         composable(Topics.route) {
                             TopicsScreen(navController)
                         }
+
                         composable(
                             Exercises.route + "/{${Exercises.argTopicId}}",
                             arguments = listOf(navArgument(Exercises.argTopicId) {
@@ -56,8 +55,8 @@ class MainActivity : ComponentActivity() {
                         composable(
                             OptionsQuiz.route + "/{${OptionsQuiz.argTopicId}}" + "/{${OptionsQuiz.argExerciseId}}",
                             arguments = listOf(
-                                navArgument(OptionsQuiz.argTopicId) {type = NavType.LongType },
-                                navArgument(OptionsQuiz.argExerciseId) {type = NavType.LongType }
+                                navArgument(OptionsQuiz.argTopicId) { type = NavType.LongType },
+                                navArgument(OptionsQuiz.argExerciseId) { type = NavType.LongType }
                             )
                         ) {
                             val topicId =
@@ -80,7 +79,8 @@ class MainActivity : ComponentActivity() {
                                 requireNotNull(it.arguments?.getLong(InputQuiz.argExerciseId)) { "Exercise id is null" }
                             InputQuizScreen(navController, topicId, exerciseId)
                         }
-                        composable(Games.route + "/{${Games.argTopicId}}" + "/{${Games.argExerciseId}}",
+                        composable(
+                            Games.route + "/{${Games.argTopicId}}" + "/{${Games.argExerciseId}}",
                             arguments = listOf(navArgument(Games.argTopicId) {
                                 type = NavType.LongType
                             }, navArgument(Games.argExerciseId) {
@@ -92,7 +92,11 @@ class MainActivity : ComponentActivity() {
                             val exerciseId =
                                 requireNotNull(it.arguments?.getLong(Games.argExerciseId)) { "Exercise id is null" }
 
-                            GameScreen(navController = navController, topicId = topicId, exerciseId = exerciseId)
+                            GameScreen(
+                                navController = navController,
+                                topicId = topicId,
+                                exerciseId = exerciseId
+                            )
                         }
                     }
                 }

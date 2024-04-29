@@ -15,6 +15,7 @@ import com.example.coursework.composables.ExerciseDescriptionCard
 import com.example.coursework.composables.TopBar
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.GameExercise
+import com.example.coursework.navigation.Exercises
 import com.example.coursework.ui.theme.darkGrey
 
 @Composable
@@ -38,10 +39,11 @@ fun GameScreen(navController: NavController, topicId: Long, exerciseId: Long) {
                 exercise.getGame(navController = navController)
             }
             Column(
-                verticalArrangement = Arrangement.spacedBy(20.dp),
+                verticalArrangement = Arrangement.spacedBy(30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TopBar(navController = navController, text = exercise.name, color = darkGrey)
+                TopBar(
+                    onClick = {navController.navigate(Exercises.route + "/${exercise.mathTopicId}")}, text = exercise.name, color = darkGrey)
                 ExerciseDescriptionCard(description = exercise.description)
             }
         }

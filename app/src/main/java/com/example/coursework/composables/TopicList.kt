@@ -60,7 +60,7 @@ fun TopicButton(navController: NavController, topic: MathTopic) {
                         trackColor = seaSalt,
                         modifier = Modifier
                             .height(7.dp)
-                            .weight(6f)
+                            .weight(5f)
                             .clip(RoundedCornerShape(8.dp))
                     )
                     Text(text = "${topic.getProgress()}%", color = darkGrey,

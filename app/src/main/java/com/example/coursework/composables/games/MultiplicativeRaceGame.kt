@@ -41,6 +41,7 @@ import com.example.coursework.composables.dialogs.RightAnswerDialog
 import com.example.coursework.composables.dialogs.WrongAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.Exercise
+import com.example.coursework.navigation.Exercises
 import com.example.coursework.navigation.Games
 import com.example.coursework.ui.theme.darkGrey
 import com.example.coursework.ui.theme.mediumGrey
@@ -57,8 +58,8 @@ fun MultiplicativeRaceGame(navController: NavController, exercise: Exercise) {
 
     if (shouldShowRightAnswerDialog.value) {
         RightAnswerDialog(
-            onDismissRequest = { shouldShowRightAnswerDialog.value = false },
-            navController = navController
+            onClick = {navController.navigate(Exercises.route + "/${exercise.mathTopicId}")},
+            onDismissRequest = { shouldShowRightAnswerDialog.value = false }
         )
     }
 

@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import com.example.coursework.ui.theme.trueBlue
 
 @Composable
-fun RightAnswerDialog(navController: NavController, onDismissRequest: () -> Unit) {
+fun RightAnswerDialog(onClick: () -> Unit, onDismissRequest: () -> Unit) {
     Dialog(
         onDismissRequest = onDismissRequest, properties = DialogProperties(
             dismissOnBackPress = false,
@@ -50,9 +50,7 @@ fun RightAnswerDialog(navController: NavController, onDismissRequest: () -> Unit
                 Text(text = "Вітаюююююю")
                 Text(text = "Ти файно справився!")
                 Button(
-                    onClick = {
-                        navController.navigateUp()
-                    }, shape = RoundedCornerShape(8.dp),
+                    onClick = onClick, shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(trueBlue)
                 ) {
                     Text(text = "Продовжити", color = Color.White)

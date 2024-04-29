@@ -17,6 +17,7 @@ import com.example.coursework.composables.quizes.InputQuizSection
 import com.example.coursework.composables.TopBar
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.InputQuizExercise
+import com.example.coursework.navigation.Exercises
 import com.example.coursework.ui.theme.trueBlue
 
 @Composable
@@ -33,7 +34,8 @@ fun InputQuizScreen(navController: NavController, topicId: Long, exerciseId: Lon
                 .clip(RoundedCornerShape(bottomEnd = 15.dp, bottomStart = 15.dp))
                 .background(trueBlue)
         ) {
-            TopBar(navController = navController, text = exercise.name, color = Color.White)
+            TopBar(
+                onClick = {navController.navigate(Exercises.route + "/${exercise.mathTopicId}")}, text = exercise.name, color = Color.White)
         }
         InputQuizSection(navController, exercise)
     }

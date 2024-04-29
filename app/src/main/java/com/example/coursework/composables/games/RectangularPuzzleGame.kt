@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -33,6 +34,7 @@ import com.example.coursework.composables.dialogs.RightAnswerDialog
 import com.example.coursework.composables.dialogs.WrongAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.Exercise
+import com.example.coursework.navigation.Exercises
 import com.example.coursework.navigation.Games
 import com.example.coursework.ui.theme.green
 import com.example.coursework.ui.theme.lightGrey
@@ -48,8 +50,8 @@ fun RectangularPuzzleGame(navController: NavController, exercise: Exercise) {
 
     if (shouldShowRightAnswerDialog.value) {
         RightAnswerDialog(
-            onDismissRequest = { shouldShowRightAnswerDialog.value = false },
-            navController = navController
+            onClick = {navController.navigate(Exercises.route + "/${exercise.mathTopicId}")},
+            onDismissRequest = { shouldShowRightAnswerDialog.value = false }
         )
     }
 
@@ -91,8 +93,8 @@ fun RectangularPuzzleGame(navController: NavController, exercise: Exercise) {
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(30.dp),
-        modifier = Modifier.padding(horizontal = 10.dp, vertical = 50.dp)
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.padding(horizontal = 10.dp).fillMaxHeight(.5f)
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(9),

@@ -16,6 +16,8 @@ import androidx.navigation.NavController
 import com.example.coursework.composables.ExerciseGrid
 import com.example.coursework.composables.TopBar
 import com.example.coursework.data.TopicsRepository
+import com.example.coursework.navigation.Exercises
+import com.example.coursework.navigation.Topics
 import com.example.coursework.ui.theme.darkGrey
 
 @Composable
@@ -34,7 +36,8 @@ fun ExercisesScreen(navController: NavController, topicId: Long) {
                 )
                 .background(Color.White)
         ) {
-            TopBar(navController = navController, text = topic.name, color = darkGrey)
+            TopBar(
+                onClick = {navController.navigate(Topics.route)}, text = topic.name, color = darkGrey)
         }
         ExerciseGrid(navController, topic)
     }

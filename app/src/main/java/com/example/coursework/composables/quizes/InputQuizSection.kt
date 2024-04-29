@@ -32,6 +32,7 @@ import com.example.coursework.composables.dialogs.RightAnswerDialog
 import com.example.coursework.composables.dialogs.WrongAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.InputQuizExercise
+import com.example.coursework.navigation.Exercises
 import com.example.coursework.ui.theme.darkGrey
 import com.example.coursework.ui.theme.trueBlue
 
@@ -44,7 +45,9 @@ fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) 
     val shouldShowWrongAnswerDialog = remember { mutableStateOf(false) }
 
     if (shouldShowRightAnswerDialog.value) {
-        RightAnswerDialog(onDismissRequest = { shouldShowRightAnswerDialog.value = false }, navController = navController)
+        RightAnswerDialog(
+            onClick = { navController.navigate(Exercises.route + "/${exercise.mathTopicId}") },
+            onDismissRequest = { shouldShowRightAnswerDialog.value = false })
     }
 
     if (shouldShowWrongAnswerDialog.value) {
@@ -72,7 +75,10 @@ fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) 
                 value = answer,
                 onValueChange = { answer = it },
                 shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.border(BorderStroke(width = 2.dp, color = trueBlue), RoundedCornerShape(8.dp)),
+                modifier = Modifier.border(
+                    BorderStroke(width = 2.dp, color = trueBlue),
+                    RoundedCornerShape(8.dp)
+                ),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
@@ -94,7 +100,10 @@ fun InputQuizSection(navController: NavController, exercise: InputQuizExercise) 
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.align(Alignment.End)
             ) {
-                Text(text = "Answer", color = if (answer.text.isNotBlank()) Color.White else darkGrey)
+                Text(
+                    text = "Перевірити",
+                    color = if (answer.text.isNotBlank()) Color.White else darkGrey
+                )
             }
         }
     }

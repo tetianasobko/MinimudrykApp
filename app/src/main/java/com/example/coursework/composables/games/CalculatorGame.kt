@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.example.coursework.composables.dialogs.RightAnswerDialog
 import com.example.coursework.data.TopicsRepository
 import com.example.coursework.models.Exercise
+import com.example.coursework.navigation.Exercises
 import com.example.coursework.ui.theme.darkGrey
 import com.example.coursework.ui.theme.trueBlue
 import com.example.coursework.ui.theme.mediumGrey
@@ -51,8 +52,8 @@ fun CalculatorGame(navController: NavController, exercise: Exercise) {
 
     if (shouldShowRightAnswerDialog.value) {
         RightAnswerDialog(
-            onDismissRequest = { shouldShowRightAnswerDialog.value = false },
-            navController = navController
+            onClick = {navController.navigate(Exercises.route + "/${exercise.mathTopicId}")},
+            onDismissRequest = { shouldShowRightAnswerDialog.value = false }
         )
     }
 
@@ -63,7 +64,7 @@ fun CalculatorGame(navController: NavController, exercise: Exercise) {
         mutableStateOf("")
     }
     val buttonSpacing = 10.dp
-    val finalNumber by remember { mutableIntStateOf(Random.nextInt(500)) }
+    val finalNumber by remember { mutableIntStateOf(Random.nextInt(1, 500)) }
     val startNumber by remember { mutableIntStateOf(Random.nextInt(1, finalNumber / 2)) }
     var currentNumber by remember { mutableDoubleStateOf(0.0) }
 
@@ -183,7 +184,6 @@ fun CalculatorGame(navController: NavController, exercise: Exercise) {
                         val closed = expression.count { it == ')' }
                         if (expression.isNotEmpty() && open >= closed + 1) {
                             val lastChar = expression.last()
-                            // if last char is not a operator, add a multiplication operator before the parenthesis
                             if (lastChar !in "+-×÷^√(") {
                                 expression += ")"
                             }
@@ -327,9 +327,12 @@ fun CalculatorGame(navController: NavController, exercise: Exercise) {
                         try {
                             currentNumber = evaluate(equation)
 
+                            exercise.description = "Необхідно виразити число A через число B за допомогою різних математичних операцій"
+                            topicsRepository.updateExercise(exercise)
+
                             if (currentNumber == finalNumber.toDouble()) {
                                 shouldShowRightAnswerDialog.value = true
-                                exercise.isCompleted
+                                exercise.complete()
                                 topicsRepository.updateExercise(exercise)
                             }
                         } catch (e: Exception) {

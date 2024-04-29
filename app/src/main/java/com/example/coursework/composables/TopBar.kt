@@ -19,9 +19,9 @@ import androidx.navigation.NavController
 import com.example.coursework.ui.theme.CourseworkTheme
 
 @Composable
-fun TopBar(navController: NavController, text: String, color: Color) {
-    Box(modifier = Modifier.fillMaxWidth()) {
-        BackButton(navController = navController, color = color)
-        Text(text = text, color = color, style = MaterialTheme.typography.titleLarge, modifier =  Modifier.align(Alignment.Center).padding(vertical = 5.dp, horizontal = 30.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
+fun TopBar(onClick: () -> Unit, text: String, color: Color) {
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
+        BackButton(onClick = onClick, color = color)
+        Text(text = text, color = color, style = MaterialTheme.typography.titleLarge, modifier =  Modifier.align(Alignment.Center).padding(top = 10.dp, bottom = 15.dp, start = 30.dp, end = 30.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
 }
